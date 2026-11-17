@@ -8,7 +8,7 @@
 
 A framework for reconstructing private thermal faces from a leaked, degraded copy (blurred or partly masked) using
 only the top-1 labels of the deployed target classifier (no gradients, no confidence scores). The target classifiers
-are ResNet18, ResNet50, VGG16 and ViT-B/16, trained on CFTD, Charlotte-ThermalFace and ThermVision-DB. The attack
+are ResNet18, VGG16 and ViT-B/16, trained on CFTD, Charlotte-ThermalFace and ThermVision-DB. The attack
 runs in two settings and with two kinds of prior:
 
 1. **Untargeted** — an unconditional flow matching prior; success means the classifier recognises the person again.
@@ -74,7 +74,7 @@ Full Dataset (per dataset: CFTD, Charlotte-ThermalFace, ThermVision-DB)
                       ↓
                  PnP-Flow reconstruction
                       ↓
-                 Reconstructions ──► Evaluate (attack accuracy, PSNR, SSIM, LPIPS, FID, KID)
+                 Reconstructions ──► Evaluate (attack accuracy, PSNR, SSIM, LPIPS, FID)
 
 Out-of-distribution prior: trained on another dataset
 (Charlotte-ThermalFace for CFTD; CFTD for the other two).
@@ -146,7 +146,7 @@ with paths relative to the dataset folder.
 | `scripts/train_prior.py` | Stage 1 of the attack |
 | `scripts/attack.py` | Stage 2 of the attack |
 | `scripts/immunize.py` | Crafts immunization perturbations |
-| `scripts/evaluate.py` | Accuracy, PSNR, SSIM, LPIPS, FID, KID of a run |
+| `scripts/evaluate.py` | Accuracy, PSNR, SSIM, LPIPS, FID of a run |
 | `scripts/make_splits.py` | Regenerates a split file |
 | `experiments/` | One shell script per part of the paper |
 | `configs/datasets/` | `cftd.yaml`, `charlotte.yaml`, `thermvision.yaml` |
@@ -353,7 +353,7 @@ results/<dataset>/<distribution>/<attack>/[<target-model>/]<degradation>/
 | **FID** | Fréchet distance between InceptionV3 features of reconstructions and private images. |
 | **KID** | Kernel Inception distance (`--kid`). |
 
-Higher **attack accuracy**, **PSNR** and **SSIM** indicate a stronger attack. Lower **LPIPS**, **FID** and **KID**
+Higher **attack accuracy**, **PSNR** and **SSIM** indicate a stronger attack. Lower **LPIPS**, **FID** 
 indicate reconstructions closer to the private images.
 
 ## License

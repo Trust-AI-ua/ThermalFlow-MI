@@ -115,15 +115,6 @@ python scripts/evaluate.py results/cftd/in_distribution/targeted/resnet18/gaussi
 An attack run writes `original/`, `observed/` and `reconstructed/` PNGs, `manifest.csv` with one row per image, and
 `config.json`. `evaluate.py` writes `metrics.json` next to the manifest.
 
-## Reproducing the paper
-
-| Part of the paper | Script |
-|---|---|
-| Target classifiers | `experiments/01_train_classifiers.sh` |
-| Main results: untargeted and targeted, in- and out-of-distribution, four degradations | `experiments/02_main_results.sh [cftd\|charlotte\|thermvision]` |
-| Sensitivity: step size, mis-specified blur kernel | `experiments/03_sensitivity.sh` |
-| Ablation: label source, class conditioning, number of denoiser draws M | `experiments/04_ablation.sh` |
-| Defences: NLS, BiDO, DP-SGD, image immunization | `experiments/05_defenses.sh` |
 
 ### Settings
 
@@ -141,19 +132,7 @@ An attack run writes `original/`, `observed/` and `reconstructed/` PNGs, `manife
 | DP-SGD | ε ∈ {1, 8, 50}, δ = 1e-5, clip 1, expected batch 256, lr 1e-2, head trained on the frozen ImageNet backbone |
 | Immunization | ‖δ‖∞ ≤ 8/255 and 16/255, 60 PGD steps of size ε/8, surrogate solver with K = 20 steps |
 
-### Reproducibility
 
-- The observation noise is seeded per batch of 4 images, and the PnP-Flow draws continue from that seed. The same
-  prior and images therefore always give the same reconstruction.
-- This code was checked against the original research code with the paper's trained priors and classifiers. On
-  the same images, it gave pixel-identical observations and reconstructions under all four degradations, for both
-  the targeted and the untargeted attack.
-- Scoring a paper run with `scripts/evaluate.py` reproduces its table entry. For example, targeted ThermalFlow-MI
-  on VGG16 under Gaussian blur gives 97.5% accuracy, PSNR 34.12, SSIM 0.954, LPIPS 0.026 and FID 60.0.
-- Training the priors and classifiers follows the original procedure and settings. Retraining can still give
-  slightly different weights, because GPU kernels and data-loading order are not bit-for-bit deterministic.
-- The split files in `splits/` are the ones used in the paper. `scripts/make_splits.py` regenerates them from the
-  raw datasets. With the file listing of the original machine, it reproduced all three files exactly.
 
 ## Threat model
 
@@ -170,10 +149,5 @@ to measure how well the attack works.
 
 If you use this code, please cite the paper (BibTeX to be added on publication).
 
-## Acknowledgements
 
-- The PnP-Flow solver follows Martin et al., "PnP-Flow: Plug-and-play image restoration with flow matching",
-  ICLR 2025.
-- The flow matching training follows Tong et al., "Improving and generalizing flow-based generative models with
-  minibatch optimal transport", TMLR 2024.
-- The UNet comes from Huang et al., NeurIPS 2021 (sdeflow-light), and the FID network from pytorch-fid.
+-

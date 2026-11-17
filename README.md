@@ -2,7 +2,7 @@
 <p align="center">
   <img src="Images/ThermalFlow-MI.png" width="500"/>
   <br>
-  <em>Figure 1: Overview of ThermalFlow-MI. A flow matching prior trained on target-labelled auxiliary thermal faces
+  <em>Figure 1: Overview of ThermalFlow-MI. A flow matching prior trained on target-labeled auxiliary thermal faces
   drives a PnP-Flow reconstruction of a leaked, degraded private image.</em>
 </p>
 
@@ -12,7 +12,7 @@ are ResNet18, VGG16 and ViT-B/16, trained on CFTD, Charlotte-ThermalFace and The
 runs in two settings and with two kinds of prior:
 
 1. **Untargeted** — an unconditional flow matching prior; success means the classifier recognises the person again.
-2. **Targeted** — a class-conditional prior, trained on auxiliary faces labelled by the target classifier.
+2. **Targeted** — a class-conditional prior, trained on auxiliary faces labeled by the target classifier.
 3. **In- / out-of-distribution priors** — the prior is trained on public faces of the same dataset, or of another
    dataset whose people do not appear in the private data.
 
@@ -68,7 +68,7 @@ Full Dataset (per dataset: CFTD, Charlotte-ThermalFace, ThermVision-DB)
     │       └── 100% ──► test accuracy of the classifier, choice of PnP step sizes
     │
     └── 20% → auxiliary (attacker's public data)
-            └── labelled by the target classifier (top-1)
+            └── labeled by the target classifier (top-1)
                       ↓
                  Flow matching prior (in-distribution)
                       ↓
@@ -104,7 +104,7 @@ to measure how well the attack works.
 - Pillow
 - PyYAML
 - tqdm
-- opacus==1.5.2 (only for the DP-SGD defence)
+- opacus==1.5.2 (only for the DP-SGD defense)
 
 ### Datasets
 
@@ -142,7 +142,7 @@ with paths relative to the dataset folder.
 | `thermalflow_mi/target_models/` | Target classifier architectures (`factory.py`) and training (`train.py`) |
 | `thermalflow_mi/data/` | Datasets, the 70/10/20 split, evaluation subsets |
 | `thermalflow_mi/utils/` | Seeding, image I/O, manifests |
-| `scripts/train_classifier.py` | Target classifiers, with or without a model-side defence |
+| `scripts/train_classifier.py` | Target classifiers, with or without a model-side defense |
 | `scripts/train_prior.py` | Stage 1 of the attack |
 | `scripts/attack.py` | Stage 2 of the attack |
 | `scripts/immunize.py` | Crafts immunization perturbations |
@@ -160,7 +160,7 @@ cd ThermalFlow-MI
 ```
 > [!NOTE]
 > `data/`, `checkpoints/`, `results/`, `runs/` and `*.pt`/`*.pth`/`*.ckpt` are listed in the [gitignore](.gitignore)
-> to keep datasets, trained models and attack outputs out of the repository.
+> to keep datasets, trained models, and attack outputs out of the repository.
 
 ### 2. Create a virtual environment (recommended)
 
@@ -179,7 +179,7 @@ python -c "import torch, torchvision, torchdiffeq, ot, lpips, sklearn, skimage, 
 ```
 
 A CUDA GPU is strongly recommended. The experiments ran with PyTorch 2.13 and torchvision 0.28 on one GPU.
-LPIPS, the ImageNet classifier weights and the FID Inception weights are downloaded on first use.
+LPIPS, the ImageNet classifier weights, and the FID Inception weights are downloaded on first use.
 
 ## Usage
 
@@ -196,7 +196,7 @@ python scripts/train_classifier.py --dataset cftd --model resnet18
 |----------|---------|-------------|
 | `--dataset` | **Required** | `cftd`, `charlotte`, `thermvision` or a config path |
 | `--model` | **Required** | Target architecture (`resnet18`, `resnet50`, `vgg16`, `vit_b_16`, `vit_b_32`) |
-| `--defense` | `none` | Model-side defence: `none`, `nls`, `bido`, `dp` |
+| `--defense` | `none` | Model-side defense: `none`, `nls`, `bido`, `dp` |
 | `--epochs` | `40` | Number of training epochs |
 | `--nls-alpha` | `-0.05` | Final NLS smoothing factor |
 | `--lambda-x` / `--lambda-y` | `5.0` / `50.0` | BiDO-HSIC weights |
@@ -282,7 +282,7 @@ python scripts/evaluate.py results/cftd/in_distribution/targeted/resnet18/gaussi
 
 ### Defences
 
-Model-side defences are set with `train_classifier.py --defense {nls,bido,dp}`. Image immunization is crafted
+Model-side defenses are set with `train_classifier.py --defense {nls,bido,dp}`. Image immunization is crafted
 per released image and then passed to the attack:
 ```bash
 python scripts/immunize.py --dataset cftd --distribution in_distribution --attack targeted \
@@ -322,7 +322,7 @@ python scripts/attack.py --dataset cftd --distribution in_distribution --attack 
 | η, α on CFTD | Gaussian 1.0, 0.1; motion 1.5, 0.01; box 0.5, 0.1; random 2.0, 0.01 |
 | η, α on Charlotte, ThermVision | Gaussian and motion 1.5, 0.01; box 0.5, 0.1; random 2.0, 0.01 |
 | Classifiers | ResNet18, ResNet50, VGG16, ViT-B/16 (ImageNet initialisation, one-channel input, 224 px); AdamW, lr 1e-4, 40 epochs |
-| Evaluation subset | main tables: first 20 images per identity; ablation, sensitivity, defences: 20 per identity drawn with seed 0 (`--per-class 20`) |
+| Evaluation subset | main tables: first 20 images per identity; ablation, sensitivity, defenses: 20 per identity drawn with seed 0 (`--per-class 20`) |
 | NLS | smoothing factor 0 for the first 20 epochs, then linearly to −0.05 |
 | BiDO | λ_x = 5, λ_y = 50, HSIC on the four ResNet stages |
 | DP-SGD | ε ∈ {1, 8, 50}, δ = 1e-5, clip 1, expected batch 256, lr 1e-2, head trained on the frozen ImageNet backbone |
@@ -346,7 +346,7 @@ results/<dataset>/<distribution>/<attack>/[<target-model>/]<degradation>/
 
 | Metric | Description |
 |---|---|
-| **Attack accuracy** | Top-1 accuracy of a classifier on the reconstructions: the share of reconstructions recognised as the right person. |
+| **Attack accuracy** | Top-1 accuracy of a classifier on the reconstructions: the share of reconstructions recognized as the right person. |
 | **PSNR** | Peak signal-to-noise ratio between reconstruction and private image. |
 | **SSIM** | Structural similarity between reconstruction and private image. |
 | **LPIPS** | Learned perceptual distance between reconstruction and private image. |
@@ -360,7 +360,7 @@ indicate reconstructions closer to the private images.
 
 MIT License
 
-Copyright (c) 2026 Trust-AI-Lab@UA. See [LICENSE](LICENSE).
+Copyright (c) 2026 XXXXXX. See [LICENSE](LICENSE).
 
 ## Citation
 

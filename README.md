@@ -371,6 +371,6 @@ If you use this code in your research, please cite:
   title  = {ThermalFlow-MI: Label-Only Model Inversion Attacks on Thermal Face Recognition with Flow Matching Priors},
   author = {Name},
   year   = {2026},
-  url    = {https://github.com/Trust-AI-ua/ThermalFlow-MI}
+  url    = {https://anonymous.4open.science/r/TF-MI-XX77/}
 }
 ```

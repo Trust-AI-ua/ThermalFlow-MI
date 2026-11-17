@@ -1,0 +1,16 @@
+# Charlotte-ThermalFace as the private dataset: 10 identities (S1..S10), a seeded half of each identity's JPEGs
+# (splits/charlotte.csv, made by scripts/make_splits.py).
+# Expected layout: <data_root>/S<k>/<image>.jpg
+name: charlotte
+data_root: ./data/Charlotte-ThermalFace
+split_csv: ./splits/charlotte.csv
+num_classes: 10
+# Out-of-distribution prior data: CFTD (other people), BMP images.
+ood_root: ./data/CFTD
+ood_extensions: [.bmp]
+image_size: 128
+pnp:
+  gaussian_blur:     {lr_pnp: 1.5, alpha: 0.01}
+  motion_blur:       {lr_pnp: 1.5, alpha: 0.01}
+  box_inpainting:    {lr_pnp: 0.5, alpha: 0.1}
+  random_inpainting: {lr_pnp: 2.0, alpha: 0.01}

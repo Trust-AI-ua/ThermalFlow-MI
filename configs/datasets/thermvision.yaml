@@ -1,0 +1,15 @@
+# ThermVision-DB as the private dataset: the 50 main subjects (25 female F.., 25 male M..), "Set 2 Cropped Facial
+# Expressions", a seeded half of each subject's frames (splits/thermvision.csv, made by scripts/make_splits.py).
+name: thermvision
+data_root: ./data/ThermVision-DB
+split_csv: ./splits/thermvision.csv
+num_classes: 50
+# Out-of-distribution prior data: CFTD (other people), BMP images.
+ood_root: ./data/CFTD
+ood_extensions: [.bmp]
+image_size: 128
+pnp:
+  gaussian_blur:     {lr_pnp: 1.5, alpha: 0.01}
+  motion_blur:       {lr_pnp: 1.5, alpha: 0.01}
+  box_inpainting:    {lr_pnp: 0.5, alpha: 0.1}
+  random_inpainting: {lr_pnp: 2.0, alpha: 0.01}

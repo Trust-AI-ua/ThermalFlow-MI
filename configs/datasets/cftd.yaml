@@ -1,0 +1,16 @@
+# Comprehensive Facial Thermal Dataset (CFTD): 2,286 thermal face images of 10 identities.
+# Expected layout: <data_root>/<identity 1..10>/<palette>/<image>.bmp (paths as in splits/cftd.csv).
+name: cftd
+data_root: ./data/CFTD
+split_csv: ./splits/cftd.csv
+num_classes: 10
+# Out-of-distribution prior data: Charlotte-ThermalFace (10 other people), all JPEG images.
+ood_root: ./data/Charlotte-ThermalFace
+ood_extensions: [.jpg, .jpeg]
+image_size: 128
+# PnP-Flow step size gamma_n = lr_pnp * sigma^2 * (1 - t_n)^alpha, per degradation.
+pnp:
+  gaussian_blur:     {lr_pnp: 1.0, alpha: 0.1}
+  motion_blur:       {lr_pnp: 1.5, alpha: 0.01}
+  box_inpainting:    {lr_pnp: 0.5, alpha: 0.1}
+  random_inpainting: {lr_pnp: 2.0, alpha: 0.01}

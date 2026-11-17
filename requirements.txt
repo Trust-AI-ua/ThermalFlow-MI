@@ -1,0 +1,14 @@
+# Tested with Python 3.10 and CUDA GPUs.
+torch>=2.1
+torchvision>=0.16
+torchdiffeq==0.2.5
+POT==0.9.7.post1          # exact optimal transport for the minibatch OT coupling (imported as `ot`)
+numpy
+scipy
+scikit-learn
+scikit-image
+lpips==0.1.4
+pillow
+PyYAML
+tqdm
+opacus==1.5.2             # only for the DP-SGD defence (privacy accounting)
